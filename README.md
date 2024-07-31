@@ -77,7 +77,7 @@ cd /home/$USER/.pyenv/versions/3.10.6/bin/
 
 Create and activate a virtual environment:
 ```bash
-python -m venv venv
+./python -m venv venv
 . venv/bin/activate
 ```
 
