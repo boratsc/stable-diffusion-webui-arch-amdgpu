@@ -1,7 +1,3 @@
-Oto ładnie sformatowany dokument z instrukcjami, gotowy do użycia w pliku README.md lub podobnym dokumencie:
-
----
-
 # Stable Diffusion WebUI with ROCm on Arch Linux/Manjaro (AMD GPU)
 
 ## How to Install ROCm on Arch Linux or Arch Linux Variants
@@ -135,6 +131,3 @@ python_cmd="/home/$USER/.pyenv/versions/3.10.6/bin/python"
 ./webui.sh
 ```
 
----
-
-Ten dokument jest teraz gotowy do użycia w Twoim projekcie na GitHubie lub innym miejscu.
