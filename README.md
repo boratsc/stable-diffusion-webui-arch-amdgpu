@@ -1,104 +1,140 @@
-# stable-diffusion-webui-arch-amdgpu
+Oto ładnie sformatowany dokument z instrukcjami, gotowy do użycia w pliku README.md lub podobnym dokumencie:
 
-How to install ROCm on ANY form of archlinux or archlinux variant
+---
 
-to start:
+# Stable Diffusion WebUI with ROCm on Arch Linux/Manjaro (AMD GPU)
 
-only archlinux:
+## How to Install ROCm on Arch Linux or Arch Linux Variants
 
- sudo pacman -Syyu
+### 1. System Update
 
-only on manjaro:
+#### For Arch Linux:
+```bash
+sudo pacman -Syyu
+```
 
- sudo pacman-mirrors -f && sudo pacman -Syyu
+#### For Manjaro:
+```bash
+sudo pacman-mirrors -f && sudo pacman -Syyu
+```
+**OR**
+```bash
+sudo pamac upgrade -a
+```
 
- OR
-   
- sudo pamac upgrade -a
+### 2. Install Yay
+```bash
+sudo pacman -S yay
+```
 
-Install yay 
+### 3. Install ROCm and Dependencies
+```bash
+yay -S git python-virtualenv wget python-pip dpkg make rocm-hip-sdk rocm-opencl-sdk gperftools bc pyenv
+```
 
- sudo pacman -S yay
+### 4. Add User to the Render Group
+Remove your user from the `render` and `video` groups:
+```bash
+sudo gpasswd -d $USER render
+sudo gpasswd -d $USER video
+```
 
-Install ROCm
+### 5. Edit Profile or Environment
 
- yay -S git python-virtualenv wget python-pip dpkg make rocm-hip-sdk rocm-opencl-sdk gperftools bc pyenv
+Edit `~/.profile` with your preferred editor:
+```bash
+sudo nano ~/.profile
+```
+**OR**
 
-Add your user to the render group
+Edit `/etc/environment`:
+```bash
+sudo nano /etc/environment
+```
 
- sudo gpasswd -d $USER render
- sudo gpasswd -d $USER video
+**Note:**  
+- `~/.profile` affects the current user's profile.
+- `/etc/environment` applies system-wide on bootup. If using `/etc/environment`, remove the `export` keyword.
 
-Edit ~/.profile with your editor of choice.
-
- sudo nano ~/.profile
-
-OR
-
- sudo nano /etc/environment
-
-The difference? .profile does the current profile, where as environment does it on bootup, make sure to remove the "export" part if putting in environment.
-
-Paste the following line at the bottom of the file, then press ctrl-x and save the file before exiting.
-
+Add the following line at the bottom of the file:
+```bash
 export HSA_OVERRIDE_GFX_VERSION=10.3.0
+```
+*(Change the version number to `11.0.0` for 7000 series GPUs)*
 
-(change the version number to 11.0.0 for 7000 series)
+### 6. Reboot the System
+```bash
+reboot
+```
 
+### 7. Install Python 3.10.6
+```bash
+pyenv install 3.10.6
+```
 
-Reboot your system
+This command installs Python 3.10.6 in your home directory. Navigate to this directory:
+```bash
+cd /home/$USER/.pyenv/versions/3.10.6/bin/
+```
 
- reboot
+Create and activate a virtual environment:
+```bash
+python -m venv venv
+. venv/bin/activate
+```
 
-after reboot
+The prompt should change to `(venv)`.
 
-Next step is install python 3.10.6
+### 8. Install Wheel
+Separate the following commands to ensure proper installation order:
+```bash
+./pip install wheel
+```
 
- pyenv install 3.10.6
+### 9. Install PyTorch with ROCm Support
+```bash
+./pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm5.7
+```
 
-That command install python3.10.6 on your home dir, go to this dir
+### 10. Verify PyTorch Installation
+Enter the Python console:
+```bash
+./python3
+```
 
- cd /home/$USER/.pyenv/versions/3.10.6/bin/
- python -m venv venv
- . venv/bin/activate
+Then enter the following code to verify GPU support:
+```python
+import torch
+torch.cuda.is_available()
+```
 
-Prompt should change to (venv)
- 
-We want to seperate these two commands so that it will install in necessary order for it to install "WHL"
+If it returns `True`, your GPU is working correctly. Exit the Python console:
+```python
+exit()
+```
 
- ./pip install wheel
+### 11. Clone Stable Diffusion WebUI Repository
 
-THEN
+Clone the repository to your home folder or another directory:
+```bash
+cd
+git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
+cd stable-diffusion-webui
+nano webui-user.sh
+```
 
- ./pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm5.7
+### 12. Configure Python Path in `webui-user.sh`
 
-Let's verify PyTorch was installed correctly with GPU support, so lets first enter the Python console.
-
- ./python3
-
-Now enter the following two lines of code. If it returns True then everything was installed correctly.
-
- import torch
-
- torch.cuda.is_available()
-
-If you see true - your gpu is working correctly.
-
-Then enter exit() to exit the Python console.
-
-
-Do this in either home folder or you can do:
-
- cd 
- git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
- cd stable-diffusion-webui
- nano webui-user.sh
-
-Change this line in webui-user.sh to this:
-
+Change the Python command line in `webui-user.sh` to:
+```bash
 python_cmd="/home/$USER/.pyenv/versions/3.10.6/bin/python"
+```
 
-Now you can run webui.sh
+### 13. Run WebUI
+```bash
+./webui.sh
+```
 
- ./webui.sh
+---
 
+Ten dokument jest teraz gotowy do użycia w Twoim projekcie na GitHubie lub innym miejscu.
