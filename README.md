@@ -1,5 +1,7 @@
 # Stable Diffusion WebUI with ROCm on Arch Linux/Manjaro (AMD GPU)
 
+## Tested on Manjaro, Arch, Endeavouros
+
 ## How to Install ROCm on Arch Linux or Arch Linux Variants
 
 ### 1. System Update
