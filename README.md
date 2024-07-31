@@ -96,8 +96,6 @@ Do this in either home folder or you can do:
 
 Change this line in webui-user.sh to this:
 
-# python3 executable
-
 python_cmd="/home/$USER/.pyenv/versions/3.10.6/bin/python"
 
 Now you can run webui.sh
