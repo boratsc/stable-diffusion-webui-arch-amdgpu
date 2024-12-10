@@ -31,10 +31,10 @@ yay -S git python-virtualenv wget python-pip dpkg make rocm-hip-sdk rocm-opencl-
 ```
 
 ### 4. Add User to the Render Group
-Remove your user from the `render` and `video` groups:
+Add your user from the `render` and `video` groups:
 ```bash
-sudo gpasswd -d $USER render
-sudo gpasswd -d $USER video
+sudo gpasswd -a $USER render
+sudo gpasswd -a $USER video
 ```
 
 ### 5. Edit Profile or Environment
